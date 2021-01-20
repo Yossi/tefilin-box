@@ -51,6 +51,9 @@ module tefilin_box_top(){
         translate([-bevel_radius, -bevel_radius, box_bottom_z-bevel_radius])
         cube([base_x()+(bevel_radius+clearance)*2, base_y()+(bevel_radius+clearance)*2, bevel_radius]); // slice off protruding bottoms of spheres
 
+        translate([offset_x()-bevel_radius+clearance, offset_y()-bevel_radius+clearance, box_bottom_z+padding_thickness])
+        crown_mouth_bevel_mask(); // round the edges off the opening to the crown
+
         union(){
             // bayit
             // color("black")
@@ -124,6 +127,25 @@ tefilin_box_top();
 
 // tefilin_box_bottom();
 
-translate([0, 0, 20])
-tefilin_box_top();
-tefilin_box_bottom();
+module crown_mouth_bevel_mask(){
+    difference(){
+        color("blue")
+        cube([top_x()+bevel_radius*2, top_y()+bevel_radius*2, bevel_radius]);
+
+        translate([0, 0, bevel_radius])
+        rotate([0, 90, 0])
+        cylinder(r=bevel_radius, h=top_x()+bevel_radius*2);
+
+        translate([0, top_y()+bevel_radius*2, bevel_radius])
+        rotate([0, 90, 0])
+        cylinder(r=bevel_radius, h=top_x()+bevel_radius*2);
+
+        translate([0, 0, bevel_radius])
+        rotate([-90, 0, 0])
+        cylinder(r=bevel_radius, h=top_y()+bevel_radius*2);
+
+        translate([top_x()+bevel_radius*2, 0, bevel_radius])
+        rotate([-90, 0, 0])
+        cylinder(r=bevel_radius, h=top_y()+bevel_radius*2);
+    }
+}
