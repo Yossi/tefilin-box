@@ -42,10 +42,10 @@ module tefilin_box_top(){
                 translate([0+clearance, top_y()+clearance, box_bottom_z+clearance+bevel_radius]) cylinder(h=.1, r=bevel_radius);
                 translate([top_x()+clearance, top_y()+clearance, box_bottom_z+clearance+bevel_radius]) cylinder(h=.1, r=bevel_radius);
 
-                translate([0+clearance, 0+clearance, box_bottom_z+clearance+bevel_radius+top_z()]) sphere(bevel_radius);
-                translate([top_x()+clearance, 0+clearance, box_bottom_z+clearance+bevel_radius+top_z()]) sphere(bevel_radius);
-                translate([0+clearance, top_y()+clearance, box_bottom_z+clearance+bevel_radius+top_z()]) sphere(bevel_radius);
-                translate([top_x()+clearance, top_y()+clearance, box_bottom_z+clearance+bevel_radius+top_z()]) sphere(bevel_radius);
+                translate([0+clearance, 0+clearance, box_bottom_z+wall_thickness+top_z()]) sphere(bevel_radius);
+                translate([top_x()+clearance, 0+clearance, box_bottom_z+wall_thickness+top_z()]) sphere(bevel_radius);
+                translate([0+clearance, top_y()+clearance, box_bottom_z+wall_thickness+top_z()]) sphere(bevel_radius);
+                translate([top_x()+clearance, top_y()+clearance, box_bottom_z+wall_thickness+top_z()]) sphere(bevel_radius);
             }
         }
         translate([-bevel_radius, -bevel_radius, box_bottom_z-bevel_radius])
@@ -62,9 +62,8 @@ module tefilin_box_top(){
             cube([2*padding_thickness+base_x(), 2*padding_thickness+base_y(), padding_thickness+epsilon]);
 
             // padding for inside crown
-            translate([offset_x()+clearance, offset_y()+clearance, base_z()+clearance+padding_thickness])
-            cube([top_x()+padding_thickness, top_y()+padding_thickness, top_z()+padding_thickness]);
-
+            translate([offset_x()+wall_thickness, offset_y()+wall_thickness, base_z()+clearance+padding_thickness])
+            cube([top_x()+padding_thickness*2, top_y()+padding_thickness*2, top_z()]);
 
         }
     }
@@ -115,6 +114,15 @@ module tefilin_box_bottom(){
     }
 }
 
+// color("black")
+// translate([0, 0, 25])
+tefilin_box_top();
+
+// color("black")
+// translate([bevel_radius+clearance, bevel_radius+clearance, bevel_radius+clearance+15])
+// bayit();
+
+// tefilin_box_bottom();
 
 translate([0, 0, 20])
 tefilin_box_top();
