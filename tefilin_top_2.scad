@@ -22,6 +22,29 @@ module corner_points(start_point, end_point){
     for (corner = corners) translate(corner) children(0);
 }
 
+module inside_bevel(){
+    translate([offset_x()-padding_thickness-bevel_radius, offset_y()-padding_thickness-bevel_radius, offset_z()+padding_thickness-epsilon])
+    difference(){
+        cube([top_x()+2*(padding_thickness+bevel_radius), top_y()+2*(padding_thickness+bevel_radius), bevel_radius]);
+
+        translate([0, 0, bevel_radius])
+        rotate([0, 90, 0])
+        cylinder(r=bevel_radius, h=top_x()+(bevel_radius+padding_thickness)*2);
+
+        translate([0, top_y()+(bevel_radius+padding_thickness)*2, bevel_radius])
+        rotate([0, 90, 0])
+        cylinder(r=bevel_radius, h=top_x()+(bevel_radius+padding_thickness)*2);
+
+        translate([0, 0, bevel_radius])
+        rotate([-90, 0, 0])
+        cylinder(r=bevel_radius, h=top_y()+(bevel_radius+padding_thickness)*2);
+
+        translate([top_x()+(bevel_radius+padding_thickness)*2, 0, bevel_radius])
+        rotate([-90, 0, 0])
+        cylinder(r=bevel_radius, h=top_y()+(bevel_radius+padding_thickness)*2);
+    }
+}
+
 module padding_model(){
     hull(){ corner_points([0, 0, 0], [base_x(), base_y(), base_z()]) pad_cube(); }
     hull(){ corner_points([offset_x(), offset_y(), offset_z()], [offset_x()+top_x(), offset_y()+top_y(), offset_z()+top_z()]) pad_cube(); }
@@ -42,7 +65,7 @@ module tefilin_top_2(){
         cube([base_x()+slop+epsilon, base_y()+slop+epsilon, slop/2]); // slice off bottom
 
         padding_model();
-
+        inside_bevel();
     }
 
 }
