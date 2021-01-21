@@ -17,6 +17,7 @@ function base_z() = 23.6;
 
 function offset_x() = 6.4;
 function offset_y() = 7.0;
+function offset_z() = base_z();
 
 function strap_width() = 16;
 
