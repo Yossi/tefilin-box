@@ -55,6 +55,18 @@ module full_box_model(){
     hull(){corner_points([offset_x()-padding_thickness, offset_y()-padding_thickness, offset_z()+padding_thickness], [offset_x()+top_x()+padding_thickness, offset_y()+top_y()+padding_thickness, offset_z()+top_z()+padding_thickness]) sphere(bevel_radius);}
 }
 
+module strap_cutout(){
+    translate([-padding_thickness-bevel_radius-epsilon, base_y()-2.1*strap_width(), -epsilon])
+    rotate([90,0,90])
+    linear_extrude(height=base_x()+2*(padding_thickness+bevel_radius+epsilon))
+    polygon([
+        [0, 0],
+        [2*strap_width(), 0],
+        [(2*strap_width()-(strap_width()-2)/2), 4*base_z()/5],
+        [(strap_width()-2)/2, 4*base_z()/5]
+    ]);
+}
+
 module tefilin_top_2(){
 
     difference(){
@@ -66,6 +78,7 @@ module tefilin_top_2(){
 
         padding_model();
         inside_bevel();
+        strap_cutout();
     }
 
 }
