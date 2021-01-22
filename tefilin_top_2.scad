@@ -7,7 +7,7 @@ use <bayit.scad>;
 epsilon = 0.001;
 
 padding_thickness = 1;
-bevel_radius = 2; // also the wall thickness
+bevel_radius = 3; // also the wall thickness
 
 slop = 2*(padding_thickness+bevel_radius);
 
