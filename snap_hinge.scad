@@ -14,46 +14,59 @@ The code can model many diffenent variants of a hings.
 modules:
     snap_hinge(hinge, model);
 
-hinge = [dimensions, pattern, arm, bump];
-    dimensions = [length of hinge, number of arms, clearance between arms];
-        length = Total length of hinge.
-        arms = Number of arms on hinge. Arm type is selected with pattern.
-            The arms are placed on equal distance from each other in the
-            length of the hinge.
-        clearance = Distance between moving parts. 0.1 mm works good.
-    pattern = [list of hinge arm types];
-        If the list in patt is shorter than number of arms then it is repeated.
-        The arm types are:
-        0 - Bump, Normal
-        1 - Bump, Reversed
-        2 - Dimp, Normal
-        3 - Dimp, Reversed
-        4 - Flat, Normal
-        5 - Flat, Reversed
-    arm = [height, thicknes, extra length, sides on the end];
-        height = The hinge and arm height.
-        thicknes = The thickness of an arm.
-        extra = An extra arm length adding to the height.
-        sides = Number of sizes on the rounded part of the arm.
-            If sizes are zero the end will be rounded with $fn sides.
-    bump = [diameter, bump height, bump angle];
-        diameter = The bump/dimp diameter.
-            The diameter must be less than the arm height.
-        height = Bump/dimp height.
-            The bump height must be less than the arm thickness.
-        angle = Controlls how steap the bump is.
-            Around 40 works good.
-model = Different types of hinge modells. The types are:
-    0 - A normal hinge.
-    1 - A mirroed hinge that fitts with type 0.
-        The hinge is rendered rotated 180 degrees to fitt with type 0.
-    2 - A reverable hinge. Two identical hinges fitts together.
-        This model is used by the polyhedron designer.
-        This model only uses half the pattern length as the other half
-        is a mirror of the first.
+        hinge = [dimensions, pattern, arm, bump];
+            dimensions = [length of hinge, number of arms, clearance between arms];
+                length = Total length of hinge.
+                arms = Number of arms on hinge. Arm type is selected with pattern.
+                    The arms are placed on equal distance from each other in the
+                    length of the hinge.
+                clearance = Distance between moving parts. 0.1 mm works good.
+            pattern = [list of hinge arm types];
+                If the list in patt is shorter than number of arms then it is repeated.
+                The arm types are:
+                0 - Bump, Normal
+                1 - Bump, Reversed
+                2 - Dimp, Normal
+                3 - Dimp, Reversed
+                4 - Flat, Normal
+                5 - Flat, Reversed
+            arm = [height, thicknes, extra length, sides on the end];
+                height = The hinge and arm height.
+                thicknes = The thickness of an arm.
+                extra = An extra arm length adding to the height.
+                sides = Number of sizes on the rounded part of the arm.
+                    If sizes are zero the end will be rounded with $fn sides.
+            bump = [diameter, bump height, bump angle];
+                diameter = The bump/dimp diameter.
+                    The diameter must be less than the arm height.
+                height = Bump/dimp height.
+                    The bump height must be less than the arm thickness.
+                angle = Controlls how steap the bump is.
+                    Around 40 works good.
+        model = Different types of hinge modells. The types are:
+            0 - A normal hinge.
+            1 - A mirroed hinge that fitts with type 0.
+                The hinge is rendered rotated 180 degrees to fitt with type 0.
+            2 - A reverable hinge. Two identical hinges fitts together.
+                This model is used by the polyhedron designer.
+                This model only uses half the pattern length as the other half
+                is a mirror of the first.
 
 ************************************************************************/
 
+$fn = 20;
+
+bump = [2, 0.4, 38]; // dia, height, ang
+arm = [3, 1, 0, 9];  // height, thick, extra, esides
+dim = [20, 8, 0.1];  // len, hinges(>=2), clear, 0:male 1:female 2:reverable
+patt = [0, 1];  // 0:bump-norm 1:bump-rev 2:dimp-norm 3:dimp:rev
+hinge = [dim, patt, arm, bump];
+
+snap_hinge(hinge, 0);
+translate(v = [0, 5, 0])
+snap_hinge(hinge, 1);
+
+/***********************************************************************/
 
 // A hinge bump. This is used to create both a bump and a dimp.
 module snap_hinge_bump(bump)
@@ -179,17 +192,3 @@ module snap_hinge(hinge, model)
 // Calculate max amout of arms on a hinge.
 function hinge_max_arms(size, thick, clear, bumpheigt) =
     1 + floor((size - (2 * thick + clear)) / (2 * thick + clear + bumpheigt));
-
-/***********************************************************************/
-
-$fn = 20;
-
-bump = [2, 0.4, 38]; // dia, height, ang
-arm = [3, 1, 0, 9];  // height, thick, extra, esides
-dim = [20, 8, 0.1];  // len, hinges(>=2), clear, 0:male 1:female 2:reverable
-patt = [0, 1];  // 0:bump-norm 1:bump-rev 2:dimp-norm 3:dimp:rev
-hinge = [dim, patt, arm, bump];
-
-snap_hinge(hinge, 0);
-translate(v = [0, 5, 0])
-snap_hinge(hinge, 1);
