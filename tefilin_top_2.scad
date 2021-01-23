@@ -94,16 +94,16 @@ module tefilin_top_2(){
         padding_model();
         inside_bevel();
         strap_cutout();
-        hinge_bevel();
+        // hinge_bevel();
 
         // translate([-slop/2, -slop/2, -slop/2])
-        // cube([base_x()+slop+epsilon, base_y()+slop+epsilon, slop/2]); // slice off bottom
+        // cube([base_x()+slop+epsilon, base_y()+slop/2+padding_thickness, slop/2]); // slice off bottom
 
         // translate([0, base_y()+padding_thickness+bevel_radius/2, 0])
         // rotate([0, 90, 0])
         // #cylinder(r=bevel_radius/2, h=base_x());
 
-        translate([0, base_y()+padding_thickness-epsilon, -bevel_radius/2])
+        translate([0, base_y()+padding_thickness-epsilon, -slop/2])
         cube([base_x(), bevel_radius+epsilon*2, bevel_radius]); // make space for hinge
 
     }
@@ -114,12 +114,12 @@ module tefilin_top_2(){
     patt = [0, 1];  // 0:bump-norm 1:bump-rev 2:dimp-norm 3:dimp:rev
     hinge = [dim, patt, arm, bump];
 
-    translate([0, base_y()+padding_thickness+bevel_radius/2, 0])
+    translate([0, base_y()+padding_thickness+bevel_radius/2, (bevel_radius-slop)/2])
     rotate([-90, 0, 0])
     snap_hinge(hinge, 0);
 
-    translate([0, base_y()+padding_thickness+bevel_radius/2, 0])
-    rotate([-90, 0, 0])
+    translate([0, base_y()+padding_thickness+bevel_radius/2, (bevel_radius-slop)/2])
+    rotate([180, 0, 0])
     snap_hinge(hinge, 1);
 
 
