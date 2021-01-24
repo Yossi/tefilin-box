@@ -7,8 +7,7 @@ include <settings.scad>
 
 use <bayit.scad>;
 use <snap_hinge.scad>;
-
-epsilon = 0.001;
+use <decorations.scad>;
 
 slop = 2*(padding_thickness+bevel_radius);
 
@@ -105,8 +104,11 @@ module tefilin_top_2(){
         strap_cutout();
         hinge_cutout();
 
-        translate([-slop/2, -slop/2, -slop/2])
-        #cube([base.x+slop+epsilon, base.y+slop/2+padding_thickness, slop/2]); // slice off bottom
+        // translate([-slop/2, -slop/2, -slop/2])
+        // #cube([base.x+slop+epsilon, base.y+slop/2+padding_thickness, slop/2]); // slice off bottom
+
+        translate([top.x/2+offset.x, top.y/2+offset.y, -slop/2])
+        round_vents();
 
     }
 

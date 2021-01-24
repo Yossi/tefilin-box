@@ -19,3 +19,5 @@ dim = [base.x, 26, 0.1];  // len, hinges(>=2), clearance, 0:male 1:female 2:reve
 patt = [0, 1];  // 0:bump-norm 1:bump-rev 2:dimp-norm 3:dimp:rev
 
 hinge = [dim, patt, arm, bump];
+
+epsilon = 0.001;
