@@ -140,4 +140,4 @@ module tefilin_box_2(half){
     }
 }
 
-tefilin_box_2("bottom");
+tefilin_box_2("top");
