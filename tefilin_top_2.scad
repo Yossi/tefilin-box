@@ -77,9 +77,10 @@ module padding_model(){
     hull(){ corner_points(offset, [offset.x+top.x, offset.y+top.y, offset.z+top.z]) pad_cube(); }
 }
 
-module full_box_model(){
+module full_box_model(half){
     hull(){corner_points([-padding_thickness, -padding_thickness, -padding_thickness], [base.x+padding_thickness, base.y+padding_thickness, base.z+padding_thickness]) sphere(bevel_radius);}
-    hull(){corner_points([offset.x-padding_thickness, offset.y-padding_thickness, offset.z+padding_thickness], [offset.x+top.x+padding_thickness, offset.y+top.y+padding_thickness, offset.z+top.z+padding_thickness]) sphere(bevel_radius);}
+    if (half == "top")
+        hull(){corner_points([offset.x-padding_thickness, offset.y-padding_thickness, offset.z+padding_thickness], [offset.x+top.x+padding_thickness, offset.y+top.y+padding_thickness, offset.z+top.z+padding_thickness]) sphere(bevel_radius);}
 }
 
 module strap_cutout(){
@@ -94,32 +95,44 @@ module strap_cutout(){
     ]);
 }
 
-module tefilin_top_2(){
+module tefilin_box_2(half){
 
     difference(){
-        full_box_model();
+        full_box_model(half);
 
         padding_model();
-        inside_bevel();
-        strap_cutout();
         hinge_cutout();
 
-        // translate([-slop/2, -slop/2, -slop/2])
-        // #cube([base.x+slop+epsilon, base.y+slop/2+padding_thickness, slop/2]); // slice off bottom
+        if (half == "top") {
+            inside_bevel();
+            strap_cutout();
 
-        translate([top.x/2+offset.x, top.y/2+offset.y, -slop/2])
-        round_vents();
+            translate([-slop/2, -slop/2, -slop/2])
+            cube([base.x+slop+epsilon, base.y+slop/2+padding_thickness, slop/2]); // slice off the bottom
+
+            //top half decorations here
+        } else {
+            translate([-slop/2, -slop/2, -slop/2])
+            difference(){ // slice off the top
+                cube([base.x+slop, base.y+slop, base.z+top.z+slop]);
+                cube([base.x+slop+epsilon, base.y+slop/2+padding_thickness-2*epsilon, slop/2]);
+            }
+
+            translate([top.x/2+offset.x, top.y/2+offset.y, -slop/2])
+            round_vents();
+        }
 
     }
 
-    translate([0, base.y+padding_thickness+bevel_radius/2, (bevel_radius-slop)/2])
-    rotate([-90, 0, 0])
-    snap_hinge(hinge, 0); // top hinge
-
-    // translate([0, base.y+padding_thickness+bevel_radius/2, (bevel_radius-slop)/2])
-    // rotate([180, 0, 0])
-    // snap_hinge(hinge, 1); // bottom hinge
-
+    if (half == "top") {
+        translate([0, base.y+padding_thickness+bevel_radius/2, (bevel_radius-slop)/2])
+        rotate([-90, 0, 0])
+        snap_hinge(hinge, 0); // top hinge
+    } else {
+        translate([0, base.y+padding_thickness+bevel_radius/2, (bevel_radius-slop)/2])
+        rotate([180, 0, 0])
+        snap_hinge(hinge, 1); // bottom hinge
+    }
 }
 
-tefilin_top_2();
+tefilin_box_2("bottom");
