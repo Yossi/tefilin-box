@@ -5,11 +5,16 @@ $fs = 1;
 
 include <settings.scad>
 
-use <bayit.scad>;
 use <snap_hinge.scad>;
 use <decorations.scad>;
 
 slop = 2*(padding_thickness+bevel_radius);
+
+module bayit() {
+    cube(base);
+    translate(offset)
+    cube(top);
+}
 
 module pad_cube(){
     pad_coords = [ for (i = [1: 3]) 2*padding_thickness ];
