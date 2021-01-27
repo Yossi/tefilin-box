@@ -1,17 +1,14 @@
 $fa = 1;
 $fs = 1;
-// $fs = 0.4; // for final renderering. looks great but makes the model take more than 10 seconds to render
-// $fn = 8;
 
 include <settings.scad>
 
 use <snap_hinge.scad>;
 use <decorations.scad>;
 
-slop = 2*(padding_thickness+bevel_radius);
-
 module bayit() {
     cube(base);
+
     translate(offset)
     cube(top);
 }
@@ -71,8 +68,23 @@ module hinge_cutout(){
     }
 }
 
-            translate([0, -bevel_radius/2-2*epsilon, 0])
-            cube([slop/2+epsilon, bevel_radius+4*epsilon, bevel_radius/2+epsilon]);
+module split_top_bottom(){
+    difference(){
+        translate([-slop/2, -slop/2, -slop/2])
+        cube([base.x+slop+epsilon, base.y+slop/2+padding_thickness, slop/2]);
+
+        hull(){
+            translate([-padding_thickness, -padding_thickness, -padding_thickness+epsilon])
+            cylinder(h=padding_thickness, r1=0, r2=bevel_radius);
+
+            translate([base.x+padding_thickness, -padding_thickness, -padding_thickness+epsilon])
+            cylinder(h=padding_thickness, r1=0, r2=bevel_radius);
+
+            translate([base.x+padding_thickness, base.y+padding_thickness, -padding_thickness+epsilon])
+            cylinder(h=padding_thickness, r1=0, r2=bevel_radius);
+
+            translate([-padding_thickness, base.y+padding_thickness, -padding_thickness+epsilon])
+            cylinder(h=padding_thickness, r1=0, r2=bevel_radius);
         }
     }
 }
@@ -140,4 +152,6 @@ module tefilin_box_2(half){
     }
 }
 
+
+// $fs = 0.4; // for final renderering. looks great but makes the model take more than 10 seconds to render
 tefilin_box_2("top");
