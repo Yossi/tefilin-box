@@ -34,7 +34,6 @@ module grooves(){
     box_dims = [top.x+slop, top.y+slop, top.z];
     translate([offset.x-slop/2, offset.y-slop/2, offset.z+slop/2])
     for (i=[(box_dims.x)/4:(box_dims.x)/4:box_dims.x-box_dims.x/4]){
-        echo(i);
         translate([i, 0, 0])
         union(){
             translate([-groove_depth/2, -epsilon, 0])
@@ -61,3 +60,11 @@ module grooves(){
         }
     }
 }
+
+//https://opensiddur.org/wp-content/uploads/fonts/Mekorot-Rashi/Mekorot-Rashi.zip
+
+use <ttf/BenOrRashiRegular.ttf>
+text("\u05e9", font="Rashi", language="he");
+// "רש״י"
+//רש״י"רש\"י"
+//"Mekorot\\-Rashi:style=Rashi"
