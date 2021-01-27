@@ -115,8 +115,10 @@ module strap_cutout(){
 module tefilin_box_2(half){
 
     difference(){
-        full_box_model(half);
-
+        union(){
+            full_box_model(half);
+            shins();
+        }
         padding_model();
         hinge_cutout();
 
@@ -124,15 +126,18 @@ module tefilin_box_2(half){
             inside_bevel();
             strap_cutout();
 
-            translate([-slop/2, -slop/2, -slop/2])
-            cube([base.x+slop+epsilon, base.y+slop/2+padding_thickness, slop/2]); // slice off the bottom
+            split_top_bottom();
 
-            //top half decorations here
+            // translate([offset.x-slop/2, offset.y-slop/2, offset.z+slop/2])
+            // #cube([top.x+slop, top.y+slop, top.z]); // temp cut off crown
+
+            // TODO: top half decorations here
+            grooves();
         } else {
-            translate([-slop/2, -slop/2, -slop/2])
             difference(){ // slice off the top
+                translate([-slop/2, -slop/2, -slop/2])
                 cube([base.x+slop, base.y+slop, base.z+top.z+slop]);
-                cube([base.x+slop+epsilon, base.y+slop/2+padding_thickness-2*epsilon, slop/2]);
+                split_top_bottom();
             }
 
             translate([top.x/2+offset.x, top.y/2+offset.y, -slop/2])
@@ -155,3 +160,4 @@ module tefilin_box_2(half){
 
 // $fs = 0.4; // for final renderering. looks great but makes the model take more than 10 seconds to render
 tefilin_box_2("top");
+tefilin_box_2("bottom");
