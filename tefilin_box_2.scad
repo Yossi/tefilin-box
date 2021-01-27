@@ -101,13 +101,13 @@ module full_box_model(half){
 }
 
 module strap_cutout(){
-    translate([-slop/2-epsilon, base.y-2.1*strap_width, -epsilon])
+    translate([-slop/2-epsilon, base.y-2.1*strap_width, -padding_thickness])
     rotate([90,0,90])
     linear_extrude(height=base.x+slop+2*epsilon)
     polygon([
         [0, 0],
         [2*strap_width, 0],
-        [(2*strap_width-(strap_width-2)/2), 4*base.z/5],
+        [2*strap_width, 4*base.z/5],
         [(strap_width-2)/2, 4*base.z/5]
     ]);
 }
