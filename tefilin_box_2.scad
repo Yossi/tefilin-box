@@ -53,23 +53,23 @@ module inside_bevel(){
 }
 
 module hinge_cutout(){
+    translate([0, base.y+padding_thickness-extra_hinge_space-epsilon, -slop/2])
     difference(){
-        translate([-slop/2, base.y+padding_thickness-epsilon, -slop/2])
-        cube([base.x+slop, bevel_radius+epsilon*2, bevel_radius]); // make space for hinge
-
-        translate([-slop/2-epsilon, base.y+padding_thickness+bevel_radius/2, (bevel_radius-slop)/2])
         union(){
-            rotate([0, 90, 0])
-            cylinder(r=bevel_radius/2, h=slop/2+epsilon);
+            cube([base.x, bevel_radius+extra_hinge_space, bevel_radius+extra_hinge_space]);
 
-            translate([0, -bevel_radius/2-2*epsilon, 0])
-            cube([slop/2+epsilon, bevel_radius+4*epsilon, bevel_radius/2+epsilon]);
+            translate([-slop/2, extra_hinge_space, 0])
+            cube([base.x+slop, bevel_radius, bevel_radius/2]);
         }
+        translate([-slop/2-epsilon, extra_hinge_space+bevel_radius/2, bevel_radius/2])
+        rotate([0, 90, 0])
+        cylinder(r=bevel_radius/2, h=slop/2+epsilon);
 
-        translate([base.x+epsilon, base.y+padding_thickness+bevel_radius/2, (bevel_radius-slop)/2])
-        union(){
-            rotate([0, 90, 0])
-            cylinder(r=bevel_radius/2, h=slop/2+epsilon);
+        translate([base.x, extra_hinge_space+bevel_radius/2, bevel_radius/2])
+        rotate([0, 90, 0])
+        cylinder(r=bevel_radius/2, h=slop/2+epsilon);
+    }
+}
 
             translate([0, -bevel_radius/2-2*epsilon, 0])
             cube([slop/2+epsilon, bevel_radius+4*epsilon, bevel_radius/2+epsilon]);
