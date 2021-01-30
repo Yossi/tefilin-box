@@ -61,10 +61,11 @@ module grooves(){
     }
 }
 
-//https://opensiddur.org/wp-content/uploads/fonts/Mekorot-Rashi/Mekorot-Rashi.zip
-
 use <ttf/BenOrRashiRegular.ttf>
-text("\u05e9", font="Rashi", language="he");
-// "רש״י"
-//רש״י"רש\"י"
-//"Mekorot\\-Rashi:style=Rashi"
+module rashi_label(){
+    translate([offset.x+top.x-top.x/4-1, offset.y+top.y/2, base.z+top.z+slop/2])
+    rotate([0, 0, 180])
+    // resize(newsize=[top.x/2, top.y/2, 0])
+    linear_extrude(1)
+    text("רש״י", font="BenOr Rashi");
+}
