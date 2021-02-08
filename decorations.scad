@@ -36,26 +36,26 @@ module grooves(){
         translate([i, 0, 0])
         union(){
             translate([-groove_depth/2, -epsilon, 0])
-            cube([groove_depth, groove_depth, box_dims.z-bevel_radius]); // front
+            cube([groove_depth, groove_depth, box_dims.z]); // front
 
             translate([-groove_depth/2, bevel_radius, box_dims.z-bevel_radius])
             rotate([90, -90, 90])
             rotate_extrude(angle=90) // front elbow
             translate([2, 0, 0])
-            square([groove_depth, groove_depth]);
+            square([groove_depth+.5, groove_depth]);
 
-            translate([-groove_depth/2, bevel_radius, box_dims.z+epsilon])
+            translate([-groove_depth/2, 0, box_dims.z+epsilon])
             rotate([-90, 0, 0])
-            cube([groove_depth, groove_depth, box_dims.y-bevel_radius*2]); // top
+            cube([groove_depth, groove_depth, box_dims.y]); // top
 
             translate([-groove_depth/2, box_dims.y-bevel_radius, box_dims.z-bevel_radius])
             rotate([90, 0, 90])
             rotate_extrude(angle=90) // back elbow
             translate([2, 0, 0])
-            square([groove_depth, groove_depth]);
+            square([groove_depth+.5, groove_depth]);
 
             translate([-groove_depth/2, -groove_depth+box_dims.y+epsilon, 0])
-            cube([groove_depth, groove_depth, box_dims.z-bevel_radius]); // back
+            cube([groove_depth, groove_depth, box_dims.z]); // back
         }
     }
 }
