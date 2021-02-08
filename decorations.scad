@@ -29,7 +29,6 @@ module shins(){
 }
 
 groove_depth = 1;
-
 module grooves(){
     box_dims = [top.x+slop, top.y+slop, top.z];
     translate([offset.x-slop/2, offset.y-slop/2, offset.z+slop/2])
@@ -68,4 +67,25 @@ module rashi_label(){
     // resize(newsize=[top.x/2, top.y/2, 0])
     linear_extrude(1.5)
     text("רש״י", font="BenOr Rashi");
+}
+
+module your_name(){
+    linespace = 12;
+    translate([(base.x)/2, .5-slop/2, slop/2+linespace])
+    rotate([90,0,0])
+    resize(newsize=[base.x, base.z, 0])
+    linear_extrude(1.5)
+    multiLine(linespace){
+        text("יוסף יצחק", halign = "center");
+        text("בן", halign = "center");
+        text("זלמן שמואל", halign = "center");
+    }
+}
+your_name();
+
+module multiLine(linespace=12){
+  union(){
+    for (i = [0 : $children-1])
+      translate([0 , -i * linespace, 0 ]) children(i);
+  }
 }

@@ -121,6 +121,7 @@ module tefilin_box_2(half){
             // additive decorations here
             shins();
             rashi_label();
+            your_name();
         }
         padding_model();
         hinge_cutout();
