@@ -117,7 +117,10 @@ module tefilin_box_2(half){
     difference(){
         union(){
             full_box_model(half);
+
+            // additive decorations here
             shins();
+            rashi_label();
         }
         padding_model();
         hinge_cutout();
@@ -128,10 +131,7 @@ module tefilin_box_2(half){
 
             split_top_bottom();
 
-            // translate([offset.x-slop/2, offset.y-slop/2, offset.z+slop/2])
-            // #cube([top.x+slop, top.y+slop, top.z]); // temp cut off crown
-
-            // TODO: top half decorations here
+            // subtractive decorations here
             grooves();
         } else {
             difference(){ // slice off the top
@@ -159,5 +159,14 @@ module tefilin_box_2(half){
 
 
 // $fs = 0.4; // for final renderering. looks great but makes the model take more than 10 seconds to render
-tefilin_box_2("top");
-tefilin_box_2("bottom");
+difference(){
+    tefilin_box_2("top");
+
+    // translate([-slop/2, -slop/2, -slop/2])
+    // #cube([base.x+slop, base.y+slop, base.z+slop]); // temp cut off base
+
+    // translate([offset.x-slop/2, offset.y-slop/2, offset.z+slop/2])
+    // #cube([top.x+slop, top.y+slop, top.z]); // temp cut off crown
+}
+
+// tefilin_box_2("bottom");
