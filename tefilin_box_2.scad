@@ -50,42 +50,45 @@ module inside_bevel(){
 }
 
 module hinge_cutout(){
-    translate([0, base.y+padding_thickness-extra_hinge_space-epsilon, -slop/2])
+    translate([0, base.y+padding_thickness-extra_hinge_space-epsilon, base.z+slop/2-bevel_radius-extra_hinge_space])
     difference(){
         union(){
             cube([base.x, bevel_radius+extra_hinge_space, bevel_radius+extra_hinge_space]);
 
-            translate([-slop/2, extra_hinge_space, 0])
-            cube([base.x+slop, bevel_radius, bevel_radius/2]);
+            translate([-slop/2, extra_hinge_space+bevel_radius/2, extra_hinge_space-2*epsilon])
+            cube([base.x+slop, bevel_radius/2, bevel_radius]);
         }
-        translate([-slop/2-epsilon, extra_hinge_space+bevel_radius/2, bevel_radius/2])
+        translate([-slop/2-epsilon, extra_hinge_space+bevel_radius/2, extra_hinge_space+bevel_radius/2])
         rotate([0, 90, 0])
         cylinder(r=bevel_radius/2, h=slop/2+epsilon);
 
-        translate([base.x, extra_hinge_space+bevel_radius/2, bevel_radius/2])
+        translate([base.x, extra_hinge_space+bevel_radius/2, extra_hinge_space+bevel_radius/2])
         rotate([0, 90, 0])
         cylinder(r=bevel_radius/2, h=slop/2+epsilon);
     }
 }
 
-module split_top_bottom(){
+module split_top_bottom_3(){
     difference(){
-        translate([-slop/2, -slop/2, -slop/2])
-        cube([base.x+slop+epsilon, base.y+slop/2+padding_thickness, slop/2]);
+        translate([-slop/2, -slop/2-1-epsilon, -slop/2-epsilon])
+        cube([base.x+slop, base.y+slop+1+epsilon, base.z+slop/2+padding_thickness*2]);
 
         hull(){
-            translate([-padding_thickness, -padding_thickness, -padding_thickness+epsilon])
-            cylinder(h=padding_thickness, r1=0, r2=bevel_radius);
+            translate([-padding_thickness, -padding_thickness, base.z+padding_thickness-epsilon])
+            cylinder(h=padding_thickness+epsilon, r1=0, r2=bevel_radius);
 
-            translate([base.x+padding_thickness, -padding_thickness, -padding_thickness+epsilon])
-            cylinder(h=padding_thickness, r1=0, r2=bevel_radius);
+            translate([base.x+padding_thickness, -padding_thickness, base.z+padding_thickness-epsilon])
+            cylinder(h=padding_thickness+epsilon, r1=0, r2=bevel_radius);
 
-            translate([base.x+padding_thickness, base.y+padding_thickness, -padding_thickness+epsilon])
-            cylinder(h=padding_thickness, r1=0, r2=bevel_radius);
+            translate([base.x+padding_thickness, base.y+padding_thickness, base.z+padding_thickness-epsilon])
+            cylinder(h=padding_thickness+epsilon, r1=0, r2=bevel_radius);
 
-            translate([-padding_thickness, base.y+padding_thickness, -padding_thickness+epsilon])
-            cylinder(h=padding_thickness, r1=0, r2=bevel_radius);
+            translate([-padding_thickness, base.y+padding_thickness, base.z+padding_thickness-epsilon])
+            cylinder(h=padding_thickness+epsilon, r1=0, r2=bevel_radius);
         }
+
+        translate([-slop/2, base.y-2*strap_width, base.z+padding_thickness-epsilon])
+        cube([base.x+slop, strap_width*2+slop/2, padding_thickness]);
     }
 }
 
@@ -101,73 +104,73 @@ module full_box_model(half){
 }
 
 module strap_cutout(){
-    translate([-slop/2-epsilon, base.y-2.1*strap_width, -padding_thickness])
-    rotate([90,0,90])
-    linear_extrude(height=base.x+slop+2*epsilon)
-    polygon([
-        [0, 0],
-        [2*strap_width, 0],
-        [2*strap_width, 4*base.z/5],
-        [(strap_width-2)/2, 4*base.z/5]
-    ]);
+    translate([-slop/2-epsilon, base.y-2*strap_width, padding_thickness+base.z/5])
+    cube([base.x+slop+2*epsilon, strap_width*2, 4*base.z/5]);
 }
 
-module tefilin_box_2(half){
-
+module tefilin_box_3(half){
     difference(){
         union(){
             full_box_model(half);
-
             // additive decorations here
             shins();
-            rashi_label();
             your_name();
+            rashi_label();
         }
+
         padding_model();
         hinge_cutout();
 
         if (half == "top") {
             inside_bevel();
-            strap_cutout();
 
-            split_top_bottom();
+            split_top_bottom_3();
 
             // subtractive decorations here
             grooves();
+
         } else {
             difference(){ // slice off the top
-                translate([-slop/2, -slop/2, -slop/2])
-                cube([base.x+slop, base.y+slop, base.z+top.z+slop]);
-                split_top_bottom();
+                translate([-slop/2, -slop/2-1-epsilon, -slop/2])
+                cube([base.x+slop, base.y+slop+1+epsilon, base.z+top.z+slop+1+epsilon]);
+                split_top_bottom_3();
             }
+
+            strap_cutout();
 
             translate([top.x/2+offset.x, top.y/2+offset.y, -slop/2])
             round_vents();
         }
-
     }
-
     if (half == "top") {
-        translate([0, base.y+padding_thickness+bevel_radius/2, (bevel_radius-slop)/2])
-        rotate([-90, 0, 0])
+        translate([0, base.y+padding_thickness+bevel_radius/2, base.z+bevel_radius])
+        rotate([0, 0, 0])
         snap_hinge(hinge, 0); // top hinge
     } else {
-        translate([0, base.y+padding_thickness+bevel_radius/2, (bevel_radius-slop)/2])
-        rotate([180, 0, 0])
+        translate([0, base.y+padding_thickness+bevel_radius/2, base.z+bevel_radius])
+        rotate([-90, 0, 0])
         snap_hinge(hinge, 1); // bottom hinge
     }
+
 }
 
+tefilin_box_3("top");
+// hinge_cutout();
 
-// $fs = 0.4; // for final renderering. looks great but makes the model take more than 10 seconds to render
-difference(){
-    tefilin_box_2("top");
+// split_top_bottom();
+// strap_cutout();
 
-    // translate([-slop/2, -slop/2, -slop/2])
-    // #cube([base.x+slop, base.y+slop, base.z+slop]); // temp cut off base
 
-    // translate([offset.x-slop/2, offset.y-slop/2, offset.z+slop/2])
-    // #cube([top.x+slop, top.y+slop, top.z]); // temp cut off crown
-}
 
-// tefilin_box_2("bottom");
+// // $fs = 0.4; // for final renderering. looks great but makes the model take more than 10 seconds to render
+// difference(){
+//     tefilin_box_2("top");
+
+//     // translate([-slop/2, -slop/2-1, -slop/2])
+//     // #cube([base.x+slop, base.y+slop+1, base.z+slop]); // temp cut off base
+
+//     // translate([offset.x-slop/2-1-epsilon, offset.y-slop/2, offset.z+slop/2])
+//     // cube([top.x+slop+2+epsilon*2, top.y+slop, top.z+1+epsilon]); // temp cut off crown
+// }
+
+// // tefilin_box_2("bottom");
