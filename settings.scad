@@ -4,8 +4,10 @@
 
 // these measurements are from my rashi shel rosh (shins on the sides are already factored in)
 top = [44.6, 41.7, 43.9];
-base = [56.9, 77.0, 20.2];
-offset = [6.4, 7.0, base.z];
+base_raw = [56.9, 77.0, 20.2];
+offset = [6.4, 7.0, base_raw.z];
+
+base = [base_raw.x, sqrt(base_raw.y*base_raw.y+base_raw.z*base_raw.z), base_raw.z]; // calculated to allow the bottom to clear the corner when opening
 
 strap_width = 16;
 
