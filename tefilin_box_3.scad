@@ -154,7 +154,7 @@ module tefilin_box_3(half){
 
 }
 
-tefilin_box_3("top");
+
 // hinge_cutout();
 
 // split_top_bottom();
@@ -173,4 +173,7 @@ tefilin_box_3("top");
 //     // cube([top.x+slop+2+epsilon*2, top.y+slop, top.z+1+epsilon]); // temp cut off crown
 // }
 
-// // tefilin_box_2("bottom");
+
+// $fs = 0.4; // for final renderering. looks great but makes the model take more than 10 seconds to render
+// tefilin_box_3("bottom");
+tefilin_box_3("top");
