@@ -71,7 +71,7 @@ module hinge_cutout(){
 module split_top_bottom_3(){
     difference(){
         translate([-slop/2, -slop/2-1-epsilon, -slop/2-epsilon])
-        cube([base.x+slop, base.y+slop+1+epsilon, base.z+slop/2+padding_thickness*2]);
+        cube([base.x+slop+epsilon, base.y+slop+1+epsilon, base.z+slop/2+padding_thickness*2]);
 
         hull(){
             translate([-padding_thickness, -padding_thickness, base.z+padding_thickness-epsilon])
@@ -112,6 +112,7 @@ module tefilin_box_3(half){
     difference(){
         union(){
             full_box_model(half);
+
             // additive decorations here
             shins();
             your_name();
@@ -143,11 +144,11 @@ module tefilin_box_3(half){
         }
     }
     if (half == "top") {
-        translate([0, base.y+padding_thickness+bevel_radius/2, base.z+bevel_radius])
+        translate([0, base.y+padding_thickness+bevel_radius/2, base.z+padding_thickness+bevel_radius/2])
         rotate([0, 0, 0])
         snap_hinge(hinge, 0); // top hinge
     } else {
-        translate([0, base.y+padding_thickness+bevel_radius/2, base.z+bevel_radius])
+        translate([0, base.y+padding_thickness+bevel_radius/2, base.z+padding_thickness+bevel_radius/2])
         rotate([-90, 0, 0])
         snap_hinge(hinge, 1); // bottom hinge
     }
@@ -159,19 +160,6 @@ module tefilin_box_3(half){
 
 // split_top_bottom();
 // strap_cutout();
-
-
-
-// // $fs = 0.4; // for final renderering. looks great but makes the model take more than 10 seconds to render
-// difference(){
-//     tefilin_box_2("top");
-
-//     // translate([-slop/2, -slop/2-1, -slop/2])
-//     // #cube([base.x+slop, base.y+slop+1, base.z+slop]); // temp cut off base
-
-//     // translate([offset.x-slop/2-1-epsilon, offset.y-slop/2, offset.z+slop/2])
-//     // cube([top.x+slop+2+epsilon*2, top.y+slop, top.z+1+epsilon]); // temp cut off crown
-// }
 
 
 // $fs = 0.4; // for final renderering. looks great but makes the model take more than 10 seconds to render
