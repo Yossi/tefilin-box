@@ -26,8 +26,8 @@ slop = 2*(padding_thickness+bevel_radius);
 extra_hinge_space = 1;
 
 bump = [bevel_radius*0.8, 0.4, 44]; // diameter, height, angle
-arm = [bevel_radius, 1, extra_hinge_space, 0];  // height, thickness, extra, esides
-dim = [base.x, 28, 0.1];  // len, hinges(>=2), clearance, 0:male 1:female 2:reverable
+arm = [bevel_radius, 1.25, extra_hinge_space, 0];  // height, thickness, extra, esides
+dim = [base.x, 22, 0.1];  // len, hinges(>=2), clearance, 0:male 1:female 2:reverable
 patt = [0, 1];  // 0:bump-norm 1:bump-rev 2:dimp-norm 3:dimp:rev
 
 hinge = [dim, patt, arm, bump];
