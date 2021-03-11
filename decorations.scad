@@ -6,11 +6,11 @@ include <settings.scad>
 module round_vents(){
     linear_extrude(height=bevel_radius+epsilon)
     union(){
-        circle(3);
+        circle(4);
         for (a = [0:60:300])
             rotate([0, 0, a])
-            translate([7, 0, 0])
-            circle(3);
+            translate([9, 0, 0])
+            circle(4);
     }
 }
 
@@ -73,7 +73,7 @@ module your_name(){
     linespace = 12;
     translate([(base.x)/2, .5-slop/2, slop/2+linespace])
     rotate([90,0,0])
-    resize(newsize=[base.x, base.z, 0])
+    resize(newsize=[top.x, base.z, 0])
     linear_extrude(1.5)
     multiLine(linespace){
         text("יוסף יצחק", halign = "center");
@@ -81,7 +81,7 @@ module your_name(){
         text("זלמן שמואל", halign = "center");
     }
 }
-your_name();
+// your_name();
 
 module multiLine(linespace=12){
   union(){
