@@ -69,26 +69,12 @@ module hinge_cutout(){
 }
 
 module split_top_bottom_3(){
-    difference(){
+    union(){
         translate([-slop/2, -slop/2-1-epsilon, -slop/2-epsilon])
-        cube([base.x+slop+epsilon, base.y+slop+1+epsilon, base.z+slop/2+padding_thickness*2]);
+        cube([base.x+slop+epsilon, base.y+slop+1+epsilon, base.z+slop/2]);
 
-        hull(){
-            translate([-padding_thickness, -padding_thickness, base.z+padding_thickness-epsilon])
-            cylinder(h=padding_thickness+epsilon, r1=0, r2=bevel_radius);
-
-            translate([base.x+padding_thickness, -padding_thickness, base.z+padding_thickness-epsilon])
-            cylinder(h=padding_thickness+epsilon, r1=0, r2=bevel_radius);
-
-            translate([base.x+padding_thickness, base.y+padding_thickness, base.z+padding_thickness-epsilon])
-            cylinder(h=padding_thickness+epsilon, r1=0, r2=bevel_radius);
-
-            translate([-padding_thickness, base.y+padding_thickness, base.z+padding_thickness-epsilon])
-            cylinder(h=padding_thickness+epsilon, r1=0, r2=bevel_radius);
-        }
-
-        translate([-slop/2, base.y-2*strap_width, base.z+padding_thickness-epsilon])
-        cube([base.x+slop, strap_width*2+slop/2, padding_thickness]);
+        translate([-slop/2, base.y+padding_thickness-epsilon, base.z-epsilon*2])
+        cube([base.x+slop, bevel_radius, padding_thickness+epsilon]);
     }
 }
 
@@ -158,10 +144,15 @@ module tefilin_box_3(half){
 
 // hinge_cutout();
 
-// split_top_bottom();
+// split_top_bottom_3();
 // strap_cutout();
 
 
 // $fs = 0.4; // for final renderering. looks great but makes the model take more than 10 seconds to render
 // tefilin_box_3("bottom");
+// difference(){
 tefilin_box_3("top");
+
+// translate([offset.x-slop/2-1.1, offset.y-slop/2, base.z+slop/2+2])
+// cube([top.x+slop+2.2, top.y+slop, top.z]);
+// }
