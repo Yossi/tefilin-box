@@ -71,9 +71,9 @@ module rashi_label(){
 
 module your_name(){
     linespace = 12;
-    translate([(base.x)/2, .5-slop/2, slop/2+linespace])
+    translate([(base.x)/2, .5-slop/2, slop/2+linespace-padding_thickness])
     rotate([90,0,0])
-    resize(newsize=[top.x, base.z, 0])
+    resize(newsize=[top.x, base.z-padding_thickness, 0])
     linear_extrude(1.5)
     multiLine(linespace){
         text("יוסף יצחק", halign = "center");
