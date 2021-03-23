@@ -6,6 +6,9 @@ padding_thickness = .1;
 top = [40.7, 40.8, 43.2];
 slop = wall_thickness + padding_thickness;
 
+case_cut_y = 19.5;
+case_cut_z = 18.6;
+case_thickness = 2.6;
 
 module pad_cube(){
     pad_coords = [ for (i = [1: 3]) 2*padding_thickness ];
@@ -30,16 +33,28 @@ module full_box_model(){
 
 $fs = 0.4; // for final renderering. looks great but makes the model take more than 10 seconds to render
 
+//mirror([0,1,0])
 difference(){
-    full_box_model();
-    padding_model();
+    full_box_model();                                                     // create outer dimentions
+    padding_model();                                                      // cut out interior
 
     translate([-slop, -slop,-slop+epsilon])
-    cube([top.x+2*slop, top.y+2*slop, slop]);
+    cube([top.x+2*slop, top.y+2*slop, slop]);                            // trim off bottom
 
     translate([top.x/2, top.y/2, top.z])
-    cylinder(slop, d=min(top.x, top.y)*.9);
+    cylinder(slop, d=min(top.x, top.y)*.9, $fn = 90);                    // hole in the top
 
-    translate([-slop+top.x*right_handed, -slop, 0])
-    cube([slop*2, top.y*.5, top.z*.5]);
+    translate([-slop, -slop, 0])
+    cube([slop*2, case_cut_y-slop, top.z*.5]);                           // side cutout
+
+    translate([0, 0, 0])
+    cylinder(top.z, d=wall_thickness/4, $fn = 90);
+    translate([top.x, 0, 0])
+    cylinder(top.z, d=wall_thickness/4, $fn = 90);                       // spaces around the corners to not rub them down
+    translate([0, top.y, 0])
+    cylinder(top.z, d=wall_thickness/4, $fn = 90);
+    translate([top.x, top.y, 0])
+    cylinder(top.z, d=wall_thickness/4, $fn = 90);
 }
+translate([-slop-case_thickness, case_cut_y-slop*2, 0])
+cube([case_thickness+wall_thickness, wall_thickness, case_cut_z]);       // knot holder wall thing
