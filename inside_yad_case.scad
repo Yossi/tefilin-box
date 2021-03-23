@@ -1,13 +1,12 @@
 epsilon = 0.001;
 
-right_handed = 0; // 1 for right handed sets (goes on the left arm), 0 for lefty sets
 wall_thickness = 1.5;
-padding_thickness = .1;
+padding_thickness = .3;
 top = [40.7, 40.8, 43.2];
 slop = wall_thickness + padding_thickness;
 
 case_cut_y = 19.5;
-case_cut_z = 18.6;
+case_cut_z = 18;
 case_thickness = 2.6;
 
 module pad_cube(){
@@ -33,7 +32,7 @@ module full_box_model(){
 
 $fs = 0.4; // for final renderering. looks great but makes the model take more than 10 seconds to render
 
-//mirror([0,1,0])
+//mirror([0,1,0])  // uncomment for righty (left arm) tefilin
 difference(){
     full_box_model();                                                     // create outer dimentions
     padding_model();                                                      // cut out interior
@@ -48,13 +47,13 @@ difference(){
     cube([slop*2, case_cut_y-slop, top.z*.5]);                           // side cutout
 
     translate([0, 0, 0])
-    cylinder(top.z, d=wall_thickness/4, $fn = 90);
+    cylinder(top.z+padding_thickness, r=wall_thickness/2, $fn = 90);
     translate([top.x, 0, 0])
-    cylinder(top.z, d=wall_thickness/4, $fn = 90);                       // spaces around the corners to not rub them down
+    cylinder(top.z+padding_thickness, r=wall_thickness/2, $fn = 90);                       // spaces around the corners to not rub them down
     translate([0, top.y, 0])
-    cylinder(top.z, d=wall_thickness/4, $fn = 90);
+    cylinder(top.z+padding_thickness, r=wall_thickness/2, $fn = 90);
     translate([top.x, top.y, 0])
-    cylinder(top.z, d=wall_thickness/4, $fn = 90);
+    cylinder(top.z+padding_thickness, r=wall_thickness/2, $fn = 90);
 }
 translate([-slop-case_thickness, case_cut_y-slop*2, 0])
 cube([case_thickness+wall_thickness, wall_thickness, case_cut_z]);       // knot holder wall thing
