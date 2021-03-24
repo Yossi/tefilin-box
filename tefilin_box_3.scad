@@ -151,8 +151,11 @@ module tefilin_box_3(half){
 // $fs = 0.4; // for final renderering. looks great but makes the model take more than 10 seconds to render
 // tefilin_box_3("bottom");
 // difference(){
-tefilin_box_3("top");
+// tefilin_box_3("top");
 
 // translate([offset.x-slop/2-1.1, offset.y-slop/2, base.z+slop/2+2])
 // cube([top.x+slop+2.2, top.y+slop, top.z]);
 // }
+
+half = "bottom";
+tefilin_box_3(half);
