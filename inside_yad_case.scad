@@ -30,12 +30,12 @@ module full_box_model(){
     hull(){corner_points([-padding_thickness, -padding_thickness, -padding_thickness], [top.x+padding_thickness, top.y+padding_thickness, top.z+padding_thickness]) sphere(wall_thickness);}
 }
 
-$fs = 0.4; // for final renderering. looks great but makes the model take more than 10 seconds to render
+$fs = 0.4; // for final renderering
 
 //mirror([0,1,0])  // uncomment for righty (left arm) tefilin
 difference(){
-    full_box_model();                                                     // create outer dimentions
-    padding_model();                                                      // cut out interior
+    full_box_model();                                                    // create outer dimentions
+    padding_model();                                                     // cut out interior
 
     translate([-slop, -slop,-slop+epsilon])
     cube([top.x+2*slop, top.y+2*slop, slop]);                            // trim off bottom
