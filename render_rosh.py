@@ -19,7 +19,7 @@ commands.append([f'{openscad} -o stl/{of} {f}'])
 
 print(commands)
 
-pool = Pool(2) # two concurrent commands at a time
+pool = Pool(3) # number of concurrent commands
 for i, completedproc in enumerate(pool.imap(partial(run, shell=True), commands)):
     if completedproc.returncode != 0:
        print("%s command failed: %s" % (i, completedproc))

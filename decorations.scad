@@ -13,6 +13,7 @@ module round_vents(){
             circle(4);
     }
 }
+// round_vents();
 
 module shins(){
     translate([offset.x-slop/2+1, offset.y+top.y, offset.z+slop/2])
