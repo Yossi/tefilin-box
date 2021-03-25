@@ -15,13 +15,13 @@ offset_raw = [6.4, 7.0, base_raw.z];
 
 padding_thickness = 1.2; // thickness of the padding you will put inside the box. in my case i have 1mm thick felt
 
-
+strap_percent = .7;
 
 
 // computed based off the measurements provided. no need to tamper with these
 diagonal = sqrt(pow(base_raw.y, 2) + pow(base_raw.z, 2));
-offset = [strap_width*.8, offset_raw.y+diagonal-base_raw.y, base_raw.z];
-base = [top.x+2*strap_width*.8, diagonal, base_raw.z]; // calculated to allow the bottom to clear the corner when opening
+offset = [max(strap_width*strap_percent, offset_raw.x), offset_raw.y+diagonal-base_raw.y, base_raw.z];
+base = [top.x+2*max(strap_width*strap_percent, offset_raw.x), diagonal, base_raw.z]; // calculated to allow the bottom to clear the corner when opening
 
 bevel_radius = 2.5; // wall thickness
 slop = 2*(padding_thickness+bevel_radius);
