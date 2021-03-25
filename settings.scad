@@ -4,7 +4,9 @@
 
 
 
-
+your_name = ["יוסף יצחק",
+             "בן",
+             "זלמן שמואל"];
 // these measurements are from my rashi shel rosh (shins on the sides are already factored in)
 strap_width = 16;
 top = [44.6, 41.7, 43.9];

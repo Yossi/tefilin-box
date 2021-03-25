@@ -101,7 +101,7 @@ module tefilin_box_3(half){
 
             // additive decorations here
             shins();
-            your_name();
+            your_name(your_name);
             rashi_label();
         }
 
