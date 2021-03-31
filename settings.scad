@@ -4,18 +4,21 @@
 
 
 
+// these measurements are from my rashi shel rosh (shins on the sides are already factored in)
+strap_width = 16;
+cutout = [8, 11.7];
+top = [44.6, 41.7, 43.9];
+base_raw = [56.9, 77.0, 20.2];
+offset_raw = [6.4, 7.0];
+
 your_name = ["יוסף יצחק",
              "בן",
              "זלמן שמואל"];
-// these measurements are from my rashi shel rosh (shins on the sides are already factored in)
-strap_width = 16;
-top = [44.6, 41.7, 43.9];
-base_raw = [56.9, 77.0, 20.2];
-offset_raw = [6.4, 7.0, base_raw.z];
 
-padding_thickness = 1.2; // thickness of the padding you will put inside the box. in my case i have 1mm thick felt
+padding_thickness = .4; // thickness of the padding you will put inside the box
 
 strap_percent = .7;
+
 
 
 // computed based off the measurements provided. no need to tamper with these

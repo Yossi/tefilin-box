@@ -62,12 +62,12 @@ module grooves(){
 }
 
 use <ttf/BenOrRashiRegular.ttf>
-module rashi_label(){
+module label(text="רש״י"){
     translate([offset.x+top.x-top.x/4-1, offset.y+top.y/2, base.z+top.z+slop/2-1])
     rotate([0, 0, 180])
     // resize(newsize=[top.x/2, top.y/2, 0])
     linear_extrude(2)
-    text("רש״י", font="BenOr Rashi");
+    text(text, font="BenOr Rashi");
 }
 
 module your_name(lines){
