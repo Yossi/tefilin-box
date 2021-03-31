@@ -94,15 +94,35 @@ module strap_cutout(){
     cube([base.x+slop+2*epsilon, strap_width*2, 4*base.z/5]);
 }
 
-module tefilin_box_3(half){
+module knot_cutout(hand){
+    cutout_x = hand == "right" ? offset.x + cutout.x : base.x + slop/2 - (offset.x + top.x + slop/2 + padding_thickness - cutout.x);
+    cutout_y = top.y/2 + cutout.y;
+
+    translate([hand == "right" ? -slop/2 : offset.x + top.x + slop/2 + padding_thickness - cutout.x, offset.y+top.y/2, base.z-epsilon*2])
+    hull(){
+        corner_points([0, 0, 0], [cutout_x, cutout_y, 0])
+        cylinder(r=bevel_radius, h=top.z/2);
+    }
+}
+
+module tefilin_box_3(half, location, nusach, hand){
     difference(){
         union(){
             full_box_model(half);
 
             // additive decorations here
-            shins();
-            your_name(your_name);
-            rashi_label();
+            if (half == "top"){
+                if (location == "head"){
+                    shins();
+                }
+                if (nusach == "rashi")
+                    label("רש״י");
+                else
+                    label("ר״ת");
+            }
+            if (half == "bottom"){
+                your_name(your_name);
+            }
         }
 
         padding_model();
@@ -114,9 +134,13 @@ module tefilin_box_3(half){
             split_top_bottom_3();
 
             // subtractive decorations here
-            grooves();
+            if (location == "head"){
+                grooves();
+            } else {
+                knot_cutout(hand);
+            }
 
-        } else {
+        } else { // bottom
             difference(){ // slice off the top
                 translate([-slop/2, -slop/2-1-epsilon, -slop/2])
                 cube([base.x+slop, base.y+slop+1+epsilon, base.z+top.z+slop+1+epsilon]);
@@ -157,5 +181,8 @@ module tefilin_box_3(half){
 // cube([top.x+slop+2.2, top.y+slop, top.z]);
 // }
 
-half = "bottom";
-tefilin_box_3(half);
+nusach = "rt";
+location = "arm";
+half = "top";
+hand = "left";
+tefilin_box_3(half, location, nusach, hand);
