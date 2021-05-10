@@ -13,7 +13,7 @@ module round_vents(){
             circle(4);
     }
 }
-// round_vents();
+round_vents();
 
 module shins(){
     translate([offset.x-slop/2+1, offset.y+top.y, offset.z+slop/2])
@@ -72,12 +72,13 @@ module label(text="רש״י"){
 
 module your_name(lines){
     linespace = 12;
-    translate([(base.x)/2, .5-slop/2, slop/2+linespace-padding_thickness])
+
+    translate([(base.x)/2, .5-slop/2, base.z])
     rotate([90,0,0])
-    resize(newsize=[top.x, base.z-padding_thickness, 0])
     linear_extrude(1.5)
+    resize(newsize=[top.x, base.z-bevel_radius, 0])
     for (i = [0 : len(lines)]){
-        translate([0 , -i * linespace, 0 ])
+        translate([0 , (-i-1) * linespace, 0 ])
         text(lines[i], halign = "center");
     }
 }
