@@ -1,6 +1,7 @@
 $fa = 1;
 $fs = 1;
 
+
 include <settings.scad>
 
 use <snap_hinge.scad>;
@@ -105,6 +106,7 @@ module knot_cutout(hand){
     }
 }
 
+
 module tefilin_box_3(half, location, nusach, hand){
     difference(){
         union(){
@@ -181,8 +183,9 @@ module tefilin_box_3(half, location, nusach, hand){
 // cube([top.x+slop+2.2, top.y+slop, top.z]);
 // }
 
-nusach = "rt";
-location = "arm";
-half = "top";
-hand = "left";
+// nusach = "rt";
+// location = "arm";
+// half = "top";
+// hand = "left";
 tefilin_box_3(half, location, nusach, hand);
+// tefilin_box_3("bottom", location, nusach);

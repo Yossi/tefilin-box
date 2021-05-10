@@ -4,20 +4,20 @@
 
 
 
-// these measurements are from my rashi shel rosh (shins on the sides are already factored in)
-strap_width = 16;
-cutout = [8, 11.7];
-top = [44.6, 41.7, 43.9];
-base_raw = [56.9, 77.0, 20.2];
-offset_raw = [6.4, 7.0];
+// these are the variables and types than need to be passed in
+strap_width = 0;
+cutout = [];
+top = [];
+base_raw = [0,0,0];
+offset_raw = [0,0];
 
-your_name = ["יוסף יצחק",
-             "בן",
-             "זלמן שמואל"];
+hand = "";
+nusach = "";
+location = "";
+your_name = [""];
 
 padding_thickness = .4; // thickness of the padding you will put inside the box
-
-strap_percent = .7;
+strap_percent = .7; // size of shoulder for wrapping straps
 
 
 
@@ -26,7 +26,8 @@ diagonal = sqrt(pow(base_raw.y, 2) + pow(base_raw.z, 2));
 offset = [max(strap_width*strap_percent, offset_raw.x), offset_raw.y+diagonal-base_raw.y, base_raw.z];
 base = [top.x+2*max(strap_width*strap_percent, offset_raw.x), diagonal, base_raw.z]; // calculated to allow the bottom to clear the corner when opening
 
-bevel_radius = 2.5; // wall thickness
+wall_thickness = 1.5; // inner box wall thickness
+bevel_radius = 2.5; // case wall thickness
 slop = 2*(padding_thickness+bevel_radius);
 
 // hinge related settings
