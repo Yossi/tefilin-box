@@ -15,7 +15,7 @@ data = {
         "name": ["יוסף יצחק", "בן", "זלמן שמואל"],
         "top": [44.8, 44.6, 45.9], # size of outside of inner box
         "base": [55.7, 78.1, 16.3],
-        "offset": [7.4, 7.6],
+        "offset": [5.42, 5.69], # measure with inner box in place
         "strap_width": 15,
         "cutout": [8, 12.5], # x and y coords for how deep to cut the knot hole (x) and how far to the hinge from the midway point of top.y (y)
     },
@@ -24,8 +24,16 @@ data = {
         'location': 'inner',
         "hand": "left",
         "top": [40.7, 40.8, 43.2],
-        "casecut": [19.5, 18], # y and z coords for the smallest dimentions of the outer case cut. top front point of the knot lip. default is top.y/2, top.z/2
-    }
+        "casecut": [19.5, 18], # y and z coords for the smallest dimentions of the outer case cut. top front point of the knot lip on the inner box. default is top.y/2, top.z/2
+    },
+
+    'rt_inner': {
+        'standalone': False,
+        'location': 'inner',
+        "hand": "left",
+        "top": [41.1, 41.2, 44.7],
+        "casecut": [19.5, 18],
+    },
 }
 
 from subprocess import run
@@ -37,17 +45,21 @@ from textwrap import dedent
 openscad = '/home/yossi/3d\ printer/tools/OpenSCAD-2019.05-x86_64.AppImage' # change this to whatever the command is on your machine
 commands = {}
 make_stl = False
+make_stl = True
 
 actives = [
-    # 'rashi_inner.stl',
-    # 'rashi_inner_template.stl',
+    'rashi_inner.stl',
+    'rashi_inner_template.stl',
 
-    # 'rashi_rosh_bottom.stl',
-    # 'rashi_rosh_top.stl',
+    'rashi_rosh_bottom.stl',
+    'rashi_rosh_top.stl',
     'rashi_rosh_template.stl',
 
-    # 'rashi_yad_bottom.stl',
-    # 'rashi_yad_top.stl'
+    'rashi_yad_bottom.stl',
+    'rashi_yad_top.stl',
+
+    'rt_inner.stl',
+    'rt_inner_template.stl',
 ]
 
 for title, part in data.items():
