@@ -1,6 +1,6 @@
 $fa = 1;
 $fs = 1;
-
+spacer = .6; // raises the bottom of the top half just a bit so supports are generated
 
 include <settings.scad>
 
@@ -72,10 +72,10 @@ module hinge_cutout(){
 module split_top_bottom_3(){
     union(){
         translate([-slop/2, -slop/2-1-epsilon, -slop/2-epsilon])
-        cube([base.x+slop+epsilon, base.y+slop+1+epsilon, base.z+slop/2]);
+        cube([base.x+slop+epsilon, base.y+slop+1+epsilon, base.z+(slop/2)-spacer]);
 
-        translate([-slop/2, base.y+padding_thickness-epsilon, base.z-epsilon*2])
-        cube([base.x+slop, bevel_radius, padding_thickness+epsilon]);
+        translate([-slop/2, base.y+padding_thickness-epsilon, base.z-(epsilon*2)-spacer])
+        cube([base.x+slop, bevel_radius, padding_thickness+epsilon-spacer]);
     }
 }
 
@@ -99,10 +99,10 @@ module knot_cutout(hand){
     cutout_x = hand == "right" ? offset.x + cutout.x : base.x + slop/2 - (offset.x + top.x + slop/2 + padding_thickness - cutout.x);
     cutout_y = top.y/2 + cutout.y;
 
-    translate([hand == "right" ? -slop/2 : offset.x + top.x + slop/2 + padding_thickness - cutout.x, offset.y+top.y/2, base.z-epsilon*2])
+    translate([hand == "right" ? -slop/2 : offset.x + top.x + slop/2 + padding_thickness - cutout.x, offset.y+top.y/2, base.z-epsilon*2-spacer])
     hull(){
         corner_points([0, 0, 0], [cutout_x, cutout_y, 0])
-        cylinder(r=bevel_radius, h=top.z/2);
+        cylinder(r=bevel_radius, h=top.z/2+spacer);
     }
 }
 
