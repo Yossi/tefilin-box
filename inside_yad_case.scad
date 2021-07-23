@@ -59,21 +59,18 @@ module inside_box(){
 module padding_template(){
     x = top.z;
     y = top.x + top.y;
+    s = slop;
     xcut = top.z * .5;
-    ycut = case_cut_y - slop;
+    ycut = case_cut_y - 2*slop;
     o = 3;
 
-    points = [[0, y], [x, y], [x, 0], [xcut, 0], [xcut, ycut], [0, ycut],
+    points = [
+        [0, y-s],   [xcut, y-s],     [xcut, y],     [x, y],     [x, 0],   [xcut, 0],   [xcut, ycut],     [0, ycut],
+        [o, y-s-o], [xcut+o, y-s-o], [xcut+o, y-o], [x-o, y-o], [x-o, o], [xcut+o, o], [xcut+o, ycut+o], [o, ycut+o]
+    ];
 
-              [o, y-o],
-                      [x-o, y-o],
-                              [x-o, o],
-                                      [xcut+o, o],
-                                                 [xcut+o, ycut+o],
-                                                               [o, ycut+o]];
-
-    paths = [[0,1,2,3,4,5],
-             [6,7,8,9,10,11]];
+    paths = [[0, 1, 2, 3, 4, 5, 6, 7],
+             [8, 9,10,11,12,13,14,15]];
     linear_extrude(height = 1)
     polygon(points, paths, 10);
 }

@@ -2,3 +2,11 @@
 *.gcode
 
 sandbox/
+
+test/
+
+output/
+
+__pycache__/
+
+output_yossi/

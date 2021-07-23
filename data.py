@@ -138,7 +138,7 @@ for title, part in data.items():
     if location == 'inner':
         top = part['top']
         case_cut_y, case_cut_z = part['casecut']
-        case_cut = f"-D 'case_cut_y={case_cut_y}' -D 'case_cut_x={case_cut_z}'" if part['standalone'] else ''
+        case_cut = f"-D 'case_cut_y={case_cut_y}' -D 'case_cut_z={case_cut_z}'" if part['standalone'] else ''
         hand = part['hand']
 
         input_file = 'inside_yad_case.scad'
